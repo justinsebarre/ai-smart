@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CDM Shop Pro - Hacker Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* --- BASE STYLES --- */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+    font-family:'Poppins',sans-serif;
+    /* --- ADDED: School Background Image --- */
+    background: linear-gradient(rgba(30, 60, 114, 0.7), rgba(42, 82, 152, 0.7)), 
+                url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+    background-size: cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    transition: background 0.4s ease;
+}
+
+/* --- HACKER MODE CSS --- */
+body.dark {
+    /* --- ADDED: Darkened School Background for Hacker Mode --- */
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 21, 0, 0.9)), 
+                url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+    background-size: cover;
+    color: #00ff41; 
+    font-family: 'Fira Code', monospace;
+}
+body.dark .card {
+    background: rgba(10, 10, 10, 0.9); /* Transparent black */
+    border: 2px solid #00ff41;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+}
+body.dark h2, body.dark h3, body.dark h4 { color: #00ff41; text-shadow: 0 0 5px #00ff41; }
+body.dark .scrolling-text { background: #001500; color: #00ff41; border: 1px solid #00ff41; }
+body.dark input { background: #000; border: 1px solid #00ff41; color: #00ff41; }
+body.dark .primary { background: transparent; border: 1px solid #00ff41; color: #00ff41; }
+body.dark .primary:hover { background: #00ff41; color: #000; }
+body.dark .platform-card { background: #000; border: 1px solid #003b00; }
+body.dark .role-btn.active { background: #00ff41; color: #000; }
+body.dark table { background: #000; border: 1px solid #00ff41; }
+body.dark table thead tr { background: #00ff41; color: #000; }
+body.dark footer { color: #00ff41; opacity: 0.6; }
+body.dark a { color: #00ff41 !important; }
+
+/* --- CARD & UI COMPONENTS --- */
+.card{
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    backdrop-filter: blur(10px);
+    width:95%;
+    max-width:650px;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.25);
+    animation:fadeIn 0.6s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- ADDED: Logo Style --- */
+.school-logo-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+.school-logo-img {
+    width: 80px; /* Baguhin ang size depende sa logo mo */
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* --- SEARCHING ANIMATIONS (NEW) --- */
+.searching-overlay {
+    text-align: center;
+    padding: 30px;
+    font-family: 'Fira Code', monospace;
+}
+.loader-bar {
+    width: 100%;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+.loader-progress {
+    width: 0%;
+    height: 100%;
+    background: #1e3c72;
+    transition: width 0.1s linear;
+}
+body.dark .loader-progress {
+    background: #00ff41;
+    box-shadow: 0 0 10px #00ff41;
+}
+.scan-line {
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    opacity: 0.8;
+}
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.platform-card {
+    animation: popIn 0.4s ease forwards;
+}
+
+.scrolling-text {
+    background: #f1f4f9;
+    color: #1e3c72;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: 0.3s;
+}
+body.dark .theme-toggle { background: #00ff41; color: #000; box-shadow: 0 0 15px #00ff41; }
+
+.hidden{display:none;}
+h2,h3{text-align:center;margin-bottom:20px;color:#1e3c72;}
+
+button:not(.theme-toggle){
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover{transform:translateY(-2px);}
+
+.primary{background:#1e3c72;color:white;width:100%;}
+.success{background:#28a745;color:white;width:100%;}
+.danger{background:#dc3545;color:white;width:100%;}
+
+input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin-bottom:12px;
+}
+
+.relative{position:relative;}
+.eye{position:absolute; right:12px; top:38px; cursor:pointer;}
+
+.search-container{display:flex; gap:10px; margin-bottom:20px;}
+.search-container input{flex:1;}
+.search-container button{width:120px;}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px;}
+
+.platform-card{
+    background:#f8f9fa;
+    border-radius:18px;
+    padding:20px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.button-link{
+    display:inline-block;
+    padding:8px 12px;
+    background:#1e3c72;
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+.role-wrap{display:flex;gap:10px;margin-bottom:15px;}
+.role-btn{flex:1;background:#e9ecef;}
+.role-btn.active{background:#1e3c72;color:white;}
+
+footer{text-align:center; margin-top:25px; font-size:12px; color:#888;}
+
+table{width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden;}
+table thead tr{background:#1e3c72; color:white;}
+table tbody tr:nth-child(even){background:#f1f1f1;}
+table tbody tr.highlight td{background:#28a745;color:white;}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleDark()" id="themeBtn">🌙</button>
+
+<div class="card">
+    <div class="school-logo-container">
+        <img src="c:\Users\DESKTOP\Pictures\c.png" alt="CDM Logo" class="school-logo-img">
+    </div>
+
+    <div class="scrolling-text">
+        <marquee behavior="scroll" direction="left" scrollamount="6">
+            • MINI PROJECT AI SMART SHOP • SYSTEM STATUS: SECURE • CDM SHOP
+        </marquee>
+    </div>
+
+    <div id="roleSection">
+        <h2>CDM Shop Pro</h2>
+        <div class="role-wrap">
+            <button class="role-btn active" id="buyerBtn" onclick="selectRole('buyer')">Buyer</button>
+            <button class="role-btn" id="adminBtn" onclick="selectRole('admin')">Admin</button>
+        </div>
+        <button class="primary" onclick="goToLogin()">Continue</button>
+    </div>
+
+    <div id="loginSection" class="hidden">
+        <h2 id="loginTitle">Login</h2>
+        <input type="text" id="authUser" placeholder="Username">
+        <div class="relative">
+            <input type="password" id="authPass" placeholder="Password">
+            <span class="eye" onclick="togglePass('authPass')">👁</span>
+        </div>
+        <div style="text-align:right;margin-bottom:10px;">
+            <a href="#" onclick="goToForgot()" style="font-size:13px;color:#1e3c72;font-weight:600;text-decoration:none;">Forgot password?</a>
+        </div>
+        <button class="primary" onclick="login()">Login</button>
+
+        <div id="registerBox">
+            <hr style="margin:20px 0; border: 0.5px solid #444;">
+            <h3>Register New Identity</h3>
+            <input type="text" id="regUser" placeholder="New Username">
+            <input type="password" id="regPass" placeholder="New Password">
+            <button class="success" onclick="registerUser()">Initialize</button>
+        </div>
+        <button class="danger" onclick="backToRole()" style="margin-top:10px;">Back</button>
+    </div>
+
+    <div id="forgotSection" class="hidden">
+        <h3>Reset Password</h3>
+        <input type="text" id="resetUser" placeholder="Username">
+        <input type="password" id="newPass" placeholder="New Password">
+        <button class="primary" onclick="resetPassword()">Update</button>
+        <button class="danger" onclick="backToLogin()" style="margin-top:10px;">Back</button>
+    </div>
+
+    <div id="buyerSection" class="hidden">
+        <h3>User: <span id="displayUser"></span></h3>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Query product info...">
+            <button class="primary" onclick="generateSearch()">Search</button>
+        </div>
+        <div id="shopGrid" class="grid"></div>
+        <div id="priceTable" class="hidden" style="margin-top:20px;">
+            <h3 style="text-align:center;">Real-time Comparison</h3>
+            <table>
+                <thead>
+                    <tr><th>Shop</th><th style="text-align:right;">Price (₱)</th><th style="text-align:center;">Link</th></tr>
+                </thead>
+                <tbody id="priceBody"></tbody>
+            </table>
+        </div>
+        <button class="danger" onclick="logout()" style="margin-top:20px;">Disconnect</button>
+    </div>
+
+    <div id="adminSection" class="hidden">
+        <h3>Admin Control Panel</h3>
+        <p style="text-align:center; padding: 20px;">System Administrator Access Only.</p>
+        <button class="danger" onclick="logout()" style="margin-top:20px;">Disconnect</button>
+    </div>
+
+    <footer>© 2026 CDM Ai smart | SYSTEM STATUS: SECURE</footer>
+</div>
+
+<script>
+let selectedRole="buyer";
+let users=JSON.parse(localStorage.getItem("users"))||[{username:"admin",password:"admin123",role:"admin"}];
+
+// DARK MODE TOGGLE
+function toggleDark(){
+    const body = document.body;
+    const btn = document.getElementById("themeBtn");
+    body.classList.toggle("dark");
+    btn.innerText = body.classList.contains("dark") ? "" : "";
+}
+
+// ROLE SELECTION
+function selectRole(role){
+    selectedRole=role;
+    document.getElementById("buyerBtn").classList.toggle("active", role === 'buyer');
+    document.getElementById("adminBtn").classList.toggle("active", role === 'admin');
+    goToLogin();
+}
+
+function goToLogin(){
+    document.getElementById("roleSection").classList.add("hidden");
+    document.getElementById("loginSection").classList.remove("hidden");
+    document.getElementById("loginTitle").innerText=selectedRole.toUpperCase() + " ACCESS";
+    document.getElementById("registerBox").style.display=selectedRole==="admin"?"none":"block";
+}
+
+function backToRole(){
+    document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("roleSection").classList.remove("hidden");
+}
+
+function togglePass(id){
+    let x=document.getElementById(id);
+    x.type=x.type==="password"?"text":"password";
+}
+
+// FORGOT PASSWORD LOGIC
+function goToForgot(){
+    document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("forgotSection").classList.remove("hidden");
+}
+function backToLogin(){
+    document.getElementById("forgotSection").classList.add("hidden");
+    document.getElementById("loginSection").classList.remove("hidden");
+}
+function resetPassword(){
+    let u=document.getElementById("resetUser").value.trim();
+    let p=document.getElementById("newPass").value.trim();
+    let user=users.find(x=>x.username===u);
+    if(!user) return alert("Identity not found in database.");
+    user.password=p;
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("Access code updated.");
+    backToLogin();
+}
+
+// REGISTRATION
+function registerUser(){
+    let u=document.getElementById("regUser").value.trim();
+    let p=document.getElementById("regPass").value.trim();
+    if(!u || p.length < 4) return alert("Protocol Error: Check inputs.");
+    if(users.find(x=>x.username===u)) return alert("Identity already exists.");
+    users.push({username:u,password:p,role:"buyer"});
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("New user initialized!");
+}
+
+// LOGIN
+function login(){
+    let u=document.getElementById("authUser").value.trim();
+    let p=document.getElementById("authPass").value.trim();
+    let user=users.find(x=>x.username===u&&x.password===p&&x.role===selectedRole);
+    if(!user) return alert("ACCESS DENIED!");
+    sessionStorage.setItem("activeUser",JSON.stringify(user));
+    location.reload();
+}
+
+function logout(){sessionStorage.removeItem("activeUser");location.reload();}
+
+// SHOPS DATA
+const shops=[
+    {name:"Shopee",url:"https://shopee.ph/search?keyword=",img:"https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg"},
+    {name:"Lazada",url:"https://www.lazada.com.ph/catalog/?q=",img:"https://tse2.mm.bing.net/th/id/OIP.N9nx3NN4r6O-Akbk-E9KSQAAAA?pid=Api&h=220&P=0"},
+    {name:"TikTok",url:"https://www.tiktok.com/search?q=",img:"https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"},
+    {name:"Zalora",url:"https://www.zalora.com.ph/catalog/?q=",img:"https://tse3.mm.bing.net/th/id/OIP.gW8cv-ofhWfoTl00ZkXgaAHaEK?pid=Api&h=220&P=0"}
+];
+
+// UPDATED SEARCH FUNCTION WITH ANIMATION
+function generateSearch(){
+    let term = document.getElementById("searchInput").value.trim(); 
+    if(!term) return;
+    
+    const grid = document.getElementById("shopGrid");
+    const table = document.getElementById("priceTable");
+    
+    // Start AI Scanning Animation
+    table.classList.add("hidden");
+    grid.innerHTML = `
+        <div class="searching-overlay" style="grid-column: 1 / -1;">
+            <div id="statusText">INITIALIZING AI PROTOCOL...</div>
+            <div class="loader-bar"><div class="loader-progress" id="pBar"></div></div>
+            <span class="scan-line" id="scanDetails">Scraping marketplace databases...</span>
+        </div>
+    `;
+
+    let progress = 0;
+    let statusMessages = [
+        "Analyzing price patterns...",
+        "Bypassing merchant firewalls...",
+        "Validating stock integrity...",
+        "Optimizing best deals..."
+    ];
+
+    // Artificial Progress Logic
+    let interval = setInterval(() => {
+        progress += 4;
+        document.getElementById("pBar").style.width = progress + "%";
+        
+        if(progress % 24 === 0) {
+            let msgIdx = Math.floor(progress / 25);
+            if(statusMessages[msgIdx]) {
+                document.getElementById("scanDetails").innerText = statusMessages[msgIdx];
+            }
+        }
+
+        if(progress >= 100) {
+            clearInterval(interval);
+            renderResults(term);
+        }
+    }, 40);
+}
+
+function renderResults(term) {
+    const grid = document.getElementById("shopGrid");
+    grid.innerHTML = shops.map((s, index) => `
+        <div class="platform-card" style="animation-delay: ${index * 0.1}s">
+            <img src="${s.img}" style="width:70px;height:70px;object-fit:contain;margin-bottom:10px;${document.body.classList.contains('dark') ? 'filter: brightness(0) invert(1) sepia(1) hue-rotate(80deg) saturate(5);' : ''}">
+            <h4>${s.name}</h4>
+            <a class="button-link" href="${s.url+encodeURIComponent(term)}" target="_blank">Access</a>
+        </div>`).join("");
+
+    let minPrice = Infinity; 
+    let priceData = [];
+    shops.forEach(s => {
+        let price = (Math.random() * 1500 + 100).toFixed(2);
+        priceData.push({shop: s.name, price: price, link: s.url + encodeURIComponent(term)});
+        if(parseFloat(price) < minPrice) minPrice = parseFloat(price);
+    });
+
+    let body = document.getElementById("priceBody");
+    body.innerHTML = "";
+    priceData.forEach(p => {
+        let highlight = parseFloat(p.price) === minPrice ? "highlight" : "";
+        body.innerHTML += `<tr class="${highlight}">
+            <td>${p.shop}</td>
+            <td style="text-align:right;">₱${p.price}</td>
+            <td style="text-align:center;"><a href="${p.link}" target="_blank" style="color:inherit;font-weight:bold;">Link</a></td>
+        </tr>`;
+    });
+    
+    document.getElementById("priceTable").classList.remove("hidden");
+}
+
+// SESSION ON LOAD
+window.onload = () => {
+    let activeUser=JSON.parse(sessionStorage.getItem("activeUser"));
+    if(activeUser){
+        document.getElementById("roleSection").classList.add("hidden");
+        if(activeUser.role==="admin") document.getElementById("adminSection").classList.remove("hidden");
+        else {
+            document.getElementById("buyerSection").classList.remove("hidden");
+            document.getElementById("displayUser").innerText=activeUser.username;
+        }
+    }
+}
+</script>
+</body>
+</html>
