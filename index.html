@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CDM Ai Smart shop</title>
+<title>CDM Ai Smart Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,6 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
     font-family:'Poppins',sans-serif;
-    /* --- ADDED: School Background Image --- */
     background: linear-gradient(rgba(30, 60, 114, 0.7), rgba(42, 82, 152, 0.7)), 
                 url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
     background-size: cover;
@@ -22,36 +21,28 @@ body{
     min-height:100vh;
     transition: background 0.4s ease;
 }
-
-/* --- HACKER MODE CSS --- */
 body.dark {
-    /* --- ADDED: Darkened School Background for Hacker Mode --- */
     background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 21, 0, 0.9)), 
                 url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
     background-size: cover;
     color: #00ff41; 
     font-family: 'Fira Code', monospace;
 }
-body.dark .card {
-    background: rgba(10, 10, 10, 0.9); /* Transparent black */
-    border: 2px solid #00ff41;
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
-}
-body.dark h2, body.dark h3, body.dark h4 { color: #00ff41; text-shadow: 0 0 5px #00ff41; }
-body.dark .scrolling-text { background: #001500; color: #00ff41; border: 1px solid #00ff41; }
-body.dark input { background: #000; border: 1px solid #00ff41; color: #00ff41; }
-body.dark .primary { background: transparent; border: 1px solid #00ff41; color: #00ff41; }
-body.dark .primary:hover { background: #00ff41; color: #000; }
-body.dark .platform-card { background: #000; border: 1px solid #003b00; }
-body.dark .role-btn.active { background: #00ff41; color: #000; }
-body.dark table { background: #000; border: 1px solid #00ff41; }
-body.dark table thead tr { background: #00ff41; color: #000; }
-body.dark footer { color: #00ff41; opacity: 0.6; }
-body.dark a { color: #00ff41 !important; }
+body.dark .card { background: rgba(10,10,10,0.9); border:2px solid #00ff41; box-shadow:0 0 20px rgba(0,255,65,0.4);}
+body.dark h2,h3,h4{ color:#00ff41; text-shadow:0 0 5px #00ff41; }
+body.dark .scrolling-text{ background:#001500;color:#00ff41;border:1px solid #00ff41; }
+body.dark input{ background:#000;border:1px solid #00ff41;color:#00ff41; }
+body.dark .primary{ background:transparent;border:1px solid #00ff41;color:#00ff41; }
+body.dark .primary:hover{ background:#00ff41;color:#000; }
+body.dark .platform-card{ background:#000;border:1px solid #003b00; }
+body.dark .role-btn.active{ background:#00ff41;color:#000; }
+body.dark table{ background:#000;border:1px solid #00ff41; }
+body.dark table thead tr{ background:#00ff41;color:#000; }
+body.dark footer{ color:#00ff41; opacity:0.6; }
+body.dark a{ color:#00ff41 !important; }
 
-/* --- CARD & UI COMPONENTS --- */
 .card{
-    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    background: rgba(255, 255, 255, 0.95); 
     backdrop-filter: blur(10px);
     width:95%;
     max-width:650px;
@@ -62,150 +53,38 @@ body.dark a { color: #00ff41 !important; }
     position: relative;
     overflow: hidden;
 }
-
-/* --- ADDED: Logo Style --- */
-.school-logo-container {
-    text-align: center;
-    margin-bottom: 15px;
-}
-.school-logo-img {
-    width: 80px; /* Baguhin ang size depende sa logo mo */
-    height: auto;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
-@keyframes fadeIn{
-    from{opacity:0;transform:translateY(20px);}
-    to{opacity:1;transform:translateY(0);}
-}
-
-/* --- SEARCHING ANIMATIONS (NEW) --- */
-.searching-overlay {
-    text-align: center;
-    padding: 30px;
-    font-family: 'Fira Code', monospace;
-}
-.loader-bar {
-    width: 100%;
-    height: 6px;
-    background: #e9ecef;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 15px 0;
-}
-.loader-progress {
-    width: 0%;
-    height: 100%;
-    background: #1e3c72;
-    transition: width 0.1s linear;
-}
-body.dark .loader-progress {
-    background: #00ff41;
-    box-shadow: 0 0 10px #00ff41;
-}
-.scan-line {
-    font-size: 12px;
-    margin-top: 5px;
-    display: block;
-    opacity: 0.8;
-}
-@keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-.platform-card {
-    animation: popIn 0.4s ease forwards;
-}
-
-.scrolling-text {
-    background: #f1f4f9;
-    color: #1e3c72;
-    padding: 8px 0;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    border-radius: 10px;
-}
-
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    cursor: pointer;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    z-index: 1000;
-    transition: 0.3s;
-}
-body.dark .theme-toggle { background: #00ff41; color: #000; box-shadow: 0 0 15px #00ff41; }
-
+.school-logo-container{text-align:center;margin-bottom:15px;}
+.school-logo-img{width:80px;height:auto;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.searching-overlay{text-align:center;padding:30px;font-family:'Fira Code', monospace;}
+.loader-bar{width:100%;height:6px;background:#e9ecef;border-radius:10px;overflow:hidden;margin:15px 0;}
+.loader-progress{width:0%;height:100%;background:#1e3c72;transition:width 0.1s linear;}
+body.dark .loader-progress{background:#00ff41;box-shadow:0 0 10px #00ff41;}
+.scan-line{font-size:12px;margin-top:5px;display:block;opacity:0.8;}
+@keyframes popIn{0% { transform: scale(0.8); opacity: 0; }100% { transform: scale(1); opacity: 1; }}
+.platform-card{animation: popIn 0.4s ease forwards;background:#f8f9fa;border-radius:18px;padding:20px;text-align:center;transition:0.3s;}
+.scrolling-text{background:#f1f4f9;color:#1e3c72;padding:8px 0;font-size:14px;font-weight:600;margin-bottom:20px;border-radius:10px;}
+.theme-toggle{position:fixed;top:20px;right:20px;width:50px;height:50px;border-radius:50%;border:none;background:white;cursor:pointer;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,0.2);z-index:1000;transition:0.3s;}
+body.dark .theme-toggle{background:#00ff41;color:#000;box-shadow:0 0 15px #00ff41;}
 .hidden{display:none;}
 h2,h3{text-align:center;margin-bottom:20px;color:#1e3c72;}
-
-button:not(.theme-toggle){
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-}
+button:not(.theme-toggle){padding:12px;border:none;border-radius:12px;font-weight:600;cursor:pointer;transition:0.3s;}
 button:hover{transform:translateY(-2px);}
-
 .primary{background:#1e3c72;color:white;width:100%;}
 .success{background:#28a745;color:white;width:100%;}
 .danger{background:#dc3545;color:white;width:100%;}
-
-input{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    margin-bottom:12px;
-}
-
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin-bottom:12px;}
 .relative{position:relative;}
 .eye{position:absolute; right:12px; top:38px; cursor:pointer;}
-
 .search-container{display:flex; gap:10px; margin-bottom:20px;}
 .search-container input{flex:1;}
 .search-container button{width:120px;}
-
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px;}
-
-.platform-card{
-    background:#f8f9fa;
-    border-radius:18px;
-    padding:20px;
-    text-align:center;
-    transition:0.3s;
-}
-
-.button-link{
-    display:inline-block;
-    padding:8px 12px;
-    background:#1e3c72;
-    color:white;
-    border-radius:8px;
-    text-decoration:none;
-}
-
 .role-wrap{display:flex;gap:10px;margin-bottom:15px;}
 .role-btn{flex:1;background:#e9ecef;}
 .role-btn.active{background:#1e3c72;color:white;}
-
-footer{text-align:center; margin-top:25px; font-size:12px; color:#888;}
-
-table{width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden;}
-table thead tr{background:#1e3c72; color:white;}
+footer{text-align:center;margin-top:25px;font-size:12px;color:#888;}
+table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;}
+table thead tr{background:#1e3c72;color:white;}
 table tbody tr:nth-child(even){background:#f1f1f1;}
 table tbody tr.highlight td{background:#28a745;color:white;}
 </style>
@@ -301,7 +180,6 @@ function toggleDark(){
     const body = document.body;
     const btn = document.getElementById("themeBtn");
     body.classList.toggle("dark");
-    btn.innerText = body.classList.contains("dark") ? "" : "";
 }
 
 // ROLE SELECTION
@@ -330,19 +208,13 @@ function togglePass(id){
 }
 
 // FORGOT PASSWORD LOGIC
-function goToForgot(){
-    document.getElementById("loginSection").classList.add("hidden");
-    document.getElementById("forgotSection").classList.remove("hidden");
-}
-function backToLogin(){
-    document.getElementById("forgotSection").classList.add("hidden");
-    document.getElementById("loginSection").classList.remove("hidden");
-}
+function goToForgot(){ document.getElementById("loginSection").classList.add("hidden"); document.getElementById("forgotSection").classList.remove("hidden"); }
+function backToLogin(){ document.getElementById("forgotSection").classList.add("hidden"); document.getElementById("loginSection").classList.remove("hidden"); }
 function resetPassword(){
     let u=document.getElementById("resetUser").value.trim();
     let p=document.getElementById("newPass").value.trim();
     let user=users.find(x=>x.username===u);
-    if(!user) return alert("Identity not found in database.");
+    if(!user) return alert("Identity not found.");
     user.password=p;
     localStorage.setItem("users",JSON.stringify(users));
     alert("Access code updated.");
@@ -370,106 +242,125 @@ function login(){
     location.reload();
 }
 
-function logout(){sessionStorage.removeItem("activeUser");location.reload();}
+function logout(){ sessionStorage.removeItem("activeUser"); location.reload(); }
 
-// SHOPS DATA
-const shops=[
-    {name:"Shopee",url:"https://shopee.ph/search?keyword=",img:"https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg"},
-    {name:"Lazada",url:"https://www.lazada.com.ph/catalog/?q=",img:"https://tse2.mm.bing.net/th/id/OIP.N9nx3NN4r6O-Akbk-E9KSQAAAA?pid=Api&h=220&P=0"},
-    {name:"TikTok",url:"https://www.tiktok.com/search?q=",img:"https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"},
-    {name:"Zalora",url:"https://www.zalora.com.ph/catalog/?q=",img:"https://tse3.mm.bing.net/th/id/OIP.gW8cv-ofhWfoTl00ZkXgaAHaEK?pid=Api&h=220&P=0"}
-];
-
-// UPDATED SEARCH FUNCTION WITH ANIMATION
-function generateSearch(){
+// REAL-TIME API SEARCH
+async function generateSearch(){
     let term = document.getElementById("searchInput").value.trim(); 
     if(!term) return;
     
     const grid = document.getElementById("shopGrid");
     const table = document.getElementById("priceTable");
     
-    // Start AI Scanning Animation
     table.classList.add("hidden");
     grid.innerHTML = `
         <div class="searching-overlay" style="grid-column: 1 / -1;">
             <div id="statusText">INITIALIZING AI PROTOCOL...</div>
             <div class="loader-bar"><div class="loader-progress" id="pBar"></div></div>
-            <span class="scan-line" id="scanDetails">Scraping marketplace databases...</span>
+            <span class="scan-line" id="scanDetails">Fetching live marketplace prices...</span>
         </div>
     `;
 
     let progress = 0;
-    let statusMessages = [
-        "Analyzing price patterns...",
-        "Bypassing merchant firewalls...",
-        "Validating stock integrity...",
-        "Optimizing best deals..."
-    ];
-
-    // Artificial Progress Logic
     let interval = setInterval(() => {
-        progress += 4;
+        progress += 5;
         document.getElementById("pBar").style.width = progress + "%";
-        
-        if(progress % 24 === 0) {
-            let msgIdx = Math.floor(progress / 25);
-            if(statusMessages[msgIdx]) {
-                document.getElementById("scanDetails").innerText = statusMessages[msgIdx];
-            }
-        }
+        if(progress >= 100) clearInterval(interval);
+    }, 50);
 
-        if(progress >= 100) {
-            clearInterval(interval);
-            renderResults(term);
-        }
-    }, 40);
+    try {
+        const response = await fetch("http://localhost:5000/api/search", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({term})
+        });
+        const data = await response.json();
+        renderResultsFromAPI(data, term);
+    } catch(err){
+        console.error(err);
+        grid.innerHTML = `<p style="text-align:center;color:red;">Error fetching live data</p>`;
+    }
 }
 
-function renderResults(term) {
+function renderResultsFromAPI(data, term){
     const grid = document.getElementById("shopGrid");
-    grid.innerHTML = shops.map((s, index) => `
-        <div class="platform-card" style="animation-delay: ${index * 0.1}s">
-            <img src="${s.img}" style="width:70px;height:70px;object-fit:contain;margin-bottom:10px;${document.body.classList.contains('dark') ? 'filter: brightness(0) invert(1) sepia(1) hue-rotate(80deg) saturate(5);' : ''}">
-            <h4>${s.name}</h4>
-            <a class="button-link" href="${s.url+encodeURIComponent(term)}" target="_blank">Access</a>
-        </div>`).join("");
+    const body = document.getElementById("priceBody");
+    const table = document.getElementById("priceTable");
 
-    let minPrice = Infinity; 
-    let priceData = [];
-    shops.forEach(s => {
-        let price = (Math.random() * 1500 + 100).toFixed(2);
-        priceData.push({shop: s.name, price: price, link: s.url + encodeURIComponent(term)});
-        if(parseFloat(price) < minPrice) minPrice = parseFloat(price);
-    });
-
-    let body = document.getElementById("priceBody");
+    grid.innerHTML = "";
     body.innerHTML = "";
-    priceData.forEach(p => {
-        let highlight = parseFloat(p.price) === minPrice ? "highlight" : "";
-        body.innerHTML += `<tr class="${highlight}">
-            <td>${p.shop}</td>
-            <td style="text-align:right;">₱${p.price}</td>
-            <td style="text-align:center;"><a href="${p.link}" target="_blank" style="color:inherit;font-weight:bold;">Link</a></td>
-        </tr>`;
-    });
     
-    document.getElementById("priceTable").classList.remove("hidden");
+    let priceData = [];
+
+    // Shopee
+    if(data.shopee.length){
+        data.shopee.forEach(p=>{
+            grid.innerHTML += `
+            <div class="platform-card">
+                <img src="${p.image}" style="width:70px;height:70px;object-fit:contain;margin-bottom:10px;">
+                <h4>Shopee: ${p.title}</h4>
+                <a class="button-link" href="${p.url}" target="_blank">Access</a>
+            </div>`;
+            priceData.push({shop:"Shopee", price:p.price_min, link:p.url});
+        });
+    }
+
+    // Lazada
+    if(data.lazada.length){
+        data.lazada.forEach(p=>{
+            grid.innerHTML += `
+            <div class="platform-card">
+                <img src="${p.image}" style="width:70px;height:70px;object-fit:contain;margin-bottom:10px;">
+                <h4>Lazada: ${p.title}</h4>
+                <a class="button-link" href="${p.url}" target="_blank">Access</a>
+            </div>`;
+            priceData.push({shop:"Lazada", price:p.price, link:p.url});
+        });
+    }
+
+    // TikTok Shop
+    if(data.tiktok.length){
+        data.tiktok.forEach(p=>{
+            grid.innerHTML += `
+            <div class="platform-card">
+                <img src="${p.mainImage}" style="width:70px;height:70px;object-fit:contain;margin-bottom:10px;">
+                <h4>TikTok: ${p.title}</h4>
+                <a class="button-link" href="${p.productUrl}" target="_blank">Access</a>
+            </div>`;
+            priceData.push({shop:"TikTok", price:p.price, link:p.productUrl});
+        });
+    }
+
+    if(priceData.length){
+        let minPrice = Math.min(...priceData.map(p=>parseFloat(p.price)));
+        priceData.forEach(p=>{
+            let highlight = parseFloat(p.price) === minPrice ? "highlight" : "";
+            body.innerHTML += `<tr class="${highlight}">
+                <td>${p.shop}</td>
+                <td style="text-align:right;">₱${p.price}</td>
+                <td style="text-align:center;"><a href="${p.link}" target="_blank" style="color:inherit;font-weight:bold;">Link</a></td>
+            </tr>`;
+        });
+        table.classList.remove("hidden");
+    } else {
+        grid.innerHTML = `<p style="text-align:center;">No results found.</p>`;
+    }
 }
 
-// SESSION ON LOAD
-window.onload = () => {
+// AUTO LOGIN CHECK
+window.onload=function(){
     let activeUser=JSON.parse(sessionStorage.getItem("activeUser"));
     if(activeUser){
         document.getElementById("roleSection").classList.add("hidden");
-        if(activeUser.role==="admin") document.getElementById("adminSection").classList.remove("hidden");
-        else {
+        document.getElementById("loginSection").classList.add("hidden");
+        if(activeUser.role==="buyer"){
             document.getElementById("buyerSection").classList.remove("hidden");
             document.getElementById("displayUser").innerText=activeUser.username;
+        } else if(activeUser.role==="admin"){
+            document.getElementById("adminSection").classList.remove("hidden");
         }
     }
 }
 </script>
 </body>
-
 </html>
-
