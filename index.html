@@ -2,473 +2,737 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MGA GAMIT NI KUYA </title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<title>MGA GAMIT NI KUYA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* --- BASE STYLES --- */
+/* ================= THEME TOKENS ================= */
+:root{
+    --primary:#1e3c72;
+    --primary-2:#2a5298;
+    --accent:#ffb703;
+    --ok:#22a559;
+    --bad:#dc3545;
+    --text:#1b2438;
+    --muted:#6b7488;
+    --card:rgba(255,255,255,.94);
+    --soft:#f1f4f9;
+    --line:#dde3ee;
+    --input-bg:#fff;
+    --overlay:linear-gradient(rgba(30,60,114,.72),rgba(42,82,152,.72));
+    --font:'Poppins',sans-serif;
+}
+body.dark{
+    --primary:#00ff41;
+    --primary-2:#00c832;
+    --accent:#00ff41;
+    --ok:#00ff41;
+    --bad:#ff4d4d;
+    --text:#00ff41;
+    --muted:#35b552;
+    --card:rgba(8,8,8,.92);
+    --soft:#001500;
+    --line:#0b4d1c;
+    --input-bg:#000;
+    --overlay:linear-gradient(rgba(0,0,0,.9),rgba(0,21,0,.9));
+    --font:'Fira Code',monospace;
+}
+
+/* ================= BASE ================= */
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
-    font-family:'Poppins',sans-serif;
-    /* --- ADDED: School Background Image --- */
-    background: linear-gradient(rgba(30, 60, 114, 0.7), rgba(42, 82, 152, 0.7)), 
-                url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
-    background-size: cover;
+    font-family:var(--font);
+    color:var(--text);
+    background:var(--overlay),
+        url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070&auto=format&fit=crop') center/cover fixed no-repeat;
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
-    transition: background 0.4s ease;
+    padding:24px 12px;
+    transition:color .3s;
 }
+h2,h3,h4{text-align:center;margin-bottom:16px;color:var(--primary);}
+body.dark h2, body.dark h3, body.dark h4{text-shadow:0 0 6px var(--primary);}
+.hidden{display:none !important;}
 
-/* --- HACKER MODE CSS --- */
-body.dark {
-    /* --- ADDED: Darkened School Background for Hacker Mode --- */
-    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 21, 0, 0.9)), 
-                url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
-    background-size: cover;
-    color: #00ff41; 
-    font-family: 'Fira Code', monospace;
-}
-body.dark .card {
-    background: rgba(10, 10, 10, 0.9); /* Transparent black */
-    border: 2px solid #00ff41;
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
-}
-body.dark h2, body.dark h3, body.dark h4 { color: #00ff41; text-shadow: 0 0 5px #00ff41; }
-body.dark .scrolling-text { background: #001500; color: #00ff41; border: 1px solid #00ff41; }
-body.dark input { background: #000; border: 1px solid #00ff41; color: #00ff41; }
-body.dark .primary { background: transparent; border: 1px solid #00ff41; color: #00ff41; }
-body.dark .primary:hover { background: #00ff41; color: #000; }
-body.dark .platform-card { background: #000; border: 1px solid #003b00; }
-body.dark .role-btn.active { background: #00ff41; color: #000; }
-body.dark table { background: #000; border: 1px solid #00ff41; }
-body.dark table thead tr { background: #00ff41; color: #000; }
-body.dark footer { color: #00ff41; opacity: 0.6; }
-body.dark a { color: #00ff41 !important; }
-
-/* --- CARD & UI COMPONENTS --- */
+/* ================= CARD ================= */
 .card{
-    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
-    backdrop-filter: blur(10px);
-    width:95%;
-    max-width:650px;
-    padding:40px;
-    border-radius:25px;
-    box-shadow:0 25px 60px rgba(0,0,0,0.25);
-    animation:fadeIn 0.6s ease;
-    position: relative;
-    overflow: hidden;
+    background:var(--card);
+    backdrop-filter:blur(12px);
+    width:100%;
+    max-width:700px;
+    padding:36px;
+    border-radius:26px;
+    box-shadow:0 25px 60px rgba(0,0,0,.3);
+    animation:fadeIn .6s ease;
+    border:1px solid transparent;
+}
+body.dark .card{border-color:var(--primary);box-shadow:0 0 28px rgba(0,255,65,.35);}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+
+.logo{text-align:center;margin-bottom:10px;}
+.logo svg,.logo img{width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25));}
+
+/* ================= TICKER (replaces <marquee>) ================= */
+.ticker{
+    background:var(--soft);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:22px;
+    font-weight:600;
+    font-size:14px;
+    color:var(--primary);
+}
+.ticker span{
+    display:inline-block;
+    padding:8px 0 8px 100%;
+    white-space:nowrap;
+    animation:scroll 16s linear infinite;
+}
+@keyframes scroll{to{transform:translateX(-100%);}}
+
+/* ================= FORM ELEMENTS ================= */
+label{display:block;font-size:13px;font-weight:600;margin:0 0 5px 2px;color:var(--muted);}
+input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:12px;
+    border:1.5px solid var(--line);
+    background:var(--input-bg);
+    color:inherit;
+    font:inherit;
+    margin-bottom:12px;
+    transition:border-color .2s, box-shadow .2s;
+}
+input:focus{outline:none;border-color:var(--primary-2);box-shadow:0 0 0 4px rgba(42,82,152,.18);}
+body.dark input:focus{box-shadow:0 0 0 3px rgba(0,255,65,.25);}
+.pw{position:relative;}
+.pw input{padding-right:46px;}
+.eye{
+    position:absolute;right:6px;top:4px;
+    width:36px;height:36px;
+    background:none !important;border:none;font-size:18px;cursor:pointer;
 }
 
-/* --- ADDED: Logo Style --- */
-.school-logo-container {
-    text-align: center;
-    margin-bottom: 15px;
-}
-.school-logo-img {
-    width: 80px; /* Baguhin ang size depende sa logo mo */
-    height: auto;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
-@keyframes fadeIn{
-    from{opacity:0;transform:translateY(20px);}
-    to{opacity:1;transform:translateY(0);}
-}
-
-/* --- SEARCHING ANIMATIONS (NEW) --- */
-.searching-overlay {
-    text-align: center;
-    padding: 30px;
-    font-family: 'Fira Code', monospace;
-}
-.loader-bar {
-    width: 100%;
-    height: 6px;
-    background: #e9ecef;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 15px 0;
-}
-.loader-progress {
-    width: 0%;
-    height: 100%;
-    background: #1e3c72;
-    transition: width 0.1s linear;
-}
-body.dark .loader-progress {
-    background: #00ff41;
-    box-shadow: 0 0 10px #00ff41;
-}
-.scan-line {
-    font-size: 12px;
-    margin-top: 5px;
-    display: block;
-    opacity: 0.8;
-}
-@keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-.platform-card {
-    animation: popIn 0.4s ease forwards;
-}
-
-.scrolling-text {
-    background: #f1f4f9;
-    color: #1e3c72;
-    padding: 8px 0;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    border-radius: 10px;
-}
-
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    cursor: pointer;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    z-index: 1000;
-    transition: 0.3s;
-}
-body.dark .theme-toggle { background: #00ff41; color: #000; box-shadow: 0 0 15px #00ff41; }
-
-.hidden{display:none;}
-h2,h3{text-align:center;margin-bottom:20px;color:#1e3c72;}
-
-button:not(.theme-toggle){
+button{font:inherit;}
+.btn{
+    width:100%;
     padding:12px;
     border:none;
     border-radius:12px;
     font-weight:600;
     cursor:pointer;
-    transition:0.3s;
+    transition:transform .2s, box-shadow .2s, background .2s;
 }
-button:hover{transform:translateY(-2px);}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.18);}
+.btn:active{transform:translateY(0);}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none;}
+.primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;}
+.success{background:var(--ok);color:#fff;}
+.danger{background:var(--bad);color:#fff;}
+.ghost{background:transparent;border:1.5px solid var(--line);color:var(--text);}
+body.dark .primary,body.dark .success,body.dark .danger{background:transparent;border:1px solid var(--primary);color:var(--primary);}
+body.dark .primary:hover,body.dark .success:hover{background:var(--primary);color:#000;}
+body.dark .danger{border-color:var(--bad);color:var(--bad);}
+.stack > * + *{margin-top:10px;}
 
-.primary{background:#1e3c72;color:white;width:100%;}
-.success{background:#28a745;color:white;width:100%;}
-.danger{background:#dc3545;color:white;width:100%;}
+.link{background:none;border:none;color:var(--primary-2);font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline;}
+.row-end{text-align:right;margin-bottom:12px;}
+hr{border:none;border-top:1px solid var(--line);margin:22px 0;}
 
-input{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    margin-bottom:12px;
+/* ================= ROLE PICKER ================= */
+.role-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.role-btn{
+    background:var(--soft);
+    border:2px solid var(--line);
+    border-radius:16px;
+    padding:18px 10px;
+    cursor:pointer;
+    font-weight:600;
+    color:var(--text);
+    transition:.25s;
 }
+.role-btn .ico{display:block;font-size:30px;margin-bottom:6px;}
+.role-btn.active{border-color:var(--primary-2);background:var(--primary);color:#fff;transform:scale(1.03);}
+body.dark .role-btn.active{background:var(--primary);color:#000;}
+.hint{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;}
 
-.relative{position:relative;}
-.eye{position:absolute; right:12px; top:38px; cursor:pointer;}
-
-.search-container{display:flex; gap:10px; margin-bottom:20px;}
-.search-container input{flex:1;}
-.search-container button{width:120px;}
-
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px;}
-
-.platform-card{
-    background:#f8f9fa;
-    border-radius:18px;
-    padding:20px;
-    text-align:center;
-    transition:0.3s;
+/* ================= BUYER ================= */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;}
+.topbar h3{margin:0;text-align:left;}
+.badge{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;}
+.search-row{display:flex;gap:10px;}
+.search-row input{flex:1;margin-bottom:0;}
+.search-row .btn{width:120px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;min-height:8px;}
+.chip{
+    background:var(--soft);border:1px solid var(--line);color:var(--text);
+    padding:5px 12px;border-radius:999px;font-size:12px;cursor:pointer;transition:.2s;
 }
+.chip:hover{background:var(--primary);color:#fff;}
+body.dark .chip:hover{color:#000;}
 
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:18px;}
+.shop{
+    background:var(--soft);border:1px solid var(--line);
+    border-radius:18px;padding:18px 12px;text-align:center;
+    animation:pop .4s ease both;transition:transform .25s, box-shadow .25s;
+}
+.shop:hover{transform:translateY(-4px);box-shadow:0 10px 22px rgba(0,0,0,.15);}
+@keyframes pop{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.shop .mark{
+    width:56px;height:56px;border-radius:16px;margin:0 auto 10px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:24px;color:#fff;
+}
+.shop h4{margin-bottom:10px;color:var(--text);}
 .button-link{
-    display:inline-block;
-    padding:8px 12px;
-    background:#1e3c72;
-    color:white;
-    border-radius:8px;
-    text-decoration:none;
+    display:inline-block;padding:8px 16px;border-radius:10px;
+    background:var(--primary);color:#fff;text-decoration:none;font-size:13px;font-weight:600;
 }
+body.dark .button-link{background:transparent;border:1px solid var(--primary);color:var(--primary);}
 
-.role-wrap{display:flex;gap:10px;margin-bottom:15px;}
-.role-btn{flex:1;background:#e9ecef;}
-.role-btn.active{background:#1e3c72;color:white;}
+.loader{text-align:center;padding:26px 6px;grid-column:1/-1;}
+.bar{height:6px;background:var(--line);border-radius:10px;overflow:hidden;margin:14px 0;}
+.bar i{display:block;height:100%;width:0;background:var(--primary-2);transition:width .1s linear;}
+body.dark .bar i{background:var(--primary);box-shadow:0 0 10px var(--primary);}
+.loader small{color:var(--muted);}
 
-footer{text-align:center; margin-top:25px; font-size:12px; color:#888;}
+/* ================= PRICE NOTEBOOK / TABLES ================= */
+.panel{margin-top:22px;}
+.panel p.sub{font-size:12px;color:var(--muted);text-align:center;margin:-8px 0 12px;}
+table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;font-size:14px;}
+thead tr{background:var(--primary);color:#fff;}
+body.dark thead tr{color:#000;}
+th,td{padding:10px 12px;text-align:left;}
+tbody tr:nth-child(even){background:var(--soft);}
+tbody tr.best td{background:var(--ok);color:#fff;font-weight:700;}
+body.dark tbody tr.best td{color:#000;}
+td input{margin:0;padding:8px 10px;max-width:130px;}
+.summary{margin-top:12px;text-align:center;font-weight:600;font-size:14px;min-height:20px;}
+.table-wrap{overflow-x:auto;}
 
-table{width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden;}
-table thead tr{background:#1e3c72; color:white;}
-table tbody tr:nth-child(even){background:#f1f1f1;}
-table tbody tr.highlight td{background:#28a745;color:white;}
+/* ================= TOAST ================= */
+#toasts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:2000;width:min(92vw,360px);}
+.toast{
+    padding:12px 16px;border-radius:12px;color:#fff;font-size:14px;font-weight:500;
+    background:#2b3550;box-shadow:0 10px 25px rgba(0,0,0,.3);animation:slideUp .3s ease;
+}
+.toast.ok{background:var(--ok);} .toast.err{background:var(--bad);}
+body.dark .toast{color:#000;background:#00ff41;} body.dark .toast.err{background:var(--bad);}
+@keyframes slideUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+
+/* ================= THEME TOGGLE ================= */
+.theme-toggle{
+    position:fixed;top:18px;right:18px;width:50px;height:50px;border-radius:50%;
+    border:none;background:#fff;font-size:22px;cursor:pointer;z-index:1000;
+    box-shadow:0 4px 15px rgba(0,0,0,.25);transition:.3s;
+}
+.theme-toggle:hover{transform:rotate(18deg) scale(1.08);}
+body.dark .theme-toggle{background:#00ff41;box-shadow:0 0 16px #00ff41;}
+
+footer{text-align:center;margin-top:24px;font-size:12px;color:var(--muted);}
+
+@media (max-width:520px){
+    .card{padding:24px 18px;}
+    .search-row{flex-direction:column;}
+    .search-row .btn{width:100%;}
+}
+@media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+}
 </style>
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleDark()" id="themeBtn">🌙</button>
+<button class="theme-toggle" id="themeBtn" aria-label="Toggle hacker mode" title="Toggle hacker mode">🌙</button>
 
-<div class="card">
-    <div class="school-logo-container">
-        <img src="" alt="CDM Logo" class="school-logo-img">
-    </div>
+<main class="card">
+    <div class="logo" id="logo"></div>
 
-    <div class="scrolling-text">
-        <marquee behavior="scroll" direction="left" scrollamount="6">
-            TAGLINE: BSE-1C ONAAA SHEESSSHH
-        </marquee>
-    </div>
+    <div class="ticker" aria-label="Tagline"><span>TAGLINE: BSE-1C ONAAA SHEESSSHH &nbsp;•&nbsp; TAGLINE: BSE-1C ONAAA SHEESSSHH</span></div>
 
-    <div id="roleSection">
-        <h2> MGA GAMIT NI KUYA </h2>
+    <!-- ROLE -->
+    <section id="roleSection">
+        <h2>MGA GAMIT NI KUYA</h2>
         <div class="role-wrap">
-            <button class="role-btn active" id="buyerBtn" onclick="selectRole('buyer')">Buyer</button>
-            <button class="role-btn" id="adminBtn" onclick="selectRole('admin')">Admin</button>
+            <button class="role-btn active" id="buyerBtn" data-role="buyer"><span class="ico">🛍️</span>Buyer</button>
+            <button class="role-btn" id="adminBtn" data-role="admin"><span class="ico">🛡️</span>Admin</button>
         </div>
-        <button class="primary" onclick="goToLogin()">Continue</button>
-    </div>
+        <button class="btn primary" id="continueBtn">Continue</button>
+        <p class="hint">Pick a role, then log in or register.</p>
+    </section>
 
-    <div id="loginSection" class="hidden">
+    <!-- LOGIN -->
+    <section id="loginSection" class="hidden">
         <h2 id="loginTitle">Login</h2>
-        <input type="text" id="authUser" placeholder="Username">
-        <div class="relative">
-            <input type="password" id="authPass" placeholder="Password">
-            <span class="eye" onclick="togglePass('authPass')">👁</span>
-        </div>
-        <div style="text-align:right;margin-bottom:10px;">
-            <a href="#" onclick="goToForgot()" style="font-size:13px;color:#1e3c72;font-weight:600;text-decoration:none;">Forgot password?</a>
-        </div>
-        <button class="primary" onclick="login()">Login</button>
+        <form id="loginForm" class="stack" autocomplete="on">
+            <div>
+                <label for="authUser">Username</label>
+                <input type="text" id="authUser" autocomplete="username" required>
+            </div>
+            <div>
+                <label for="authPass">Password</label>
+                <div class="pw">
+                    <input type="password" id="authPass" autocomplete="current-password" required>
+                    <button type="button" class="eye" data-eye="authPass" aria-label="Show or hide password">👁</button>
+                </div>
+            </div>
+            <div class="row-end"><button type="button" class="link" id="forgotLink">Forgot password?</button></div>
+            <button type="submit" class="btn primary" id="loginBtn">Login</button>
+        </form>
 
         <div id="registerBox">
-            <hr style="margin:20px 0; border: 0.5px solid #444;">
-            <h3>Register New Identity</h3>
-            <input type="text" id="regUser" placeholder="New Username">
-            <input type="password" id="regPass" placeholder="New Password">
-            <button class="success" onclick="registerUser()">Initialize</button>
+            <hr>
+            <h3>Create an account</h3>
+            <form id="regForm" class="stack" autocomplete="off">
+                <div>
+                    <label for="regUser">Username</label>
+                    <input type="text" id="regUser" minlength="3" maxlength="20" required>
+                </div>
+                <div>
+                    <label for="regPass">Password (min 6 characters)</label>
+                    <div class="pw">
+                        <input type="password" id="regPass" minlength="6" autocomplete="new-password" required>
+                        <button type="button" class="eye" data-eye="regPass" aria-label="Show or hide password">👁</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="regPin">Recovery PIN (4–8 digits, used to reset your password)</label>
+                    <input type="password" id="regPin" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" required>
+                </div>
+                <button type="submit" class="btn success">Register</button>
+            </form>
         </div>
-        <button class="danger" onclick="backToRole()" style="margin-top:10px;">Back</button>
-    </div>
+        <button class="btn ghost" id="backRoleBtn" style="margin-top:14px;">← Back</button>
+    </section>
 
-    <div id="forgotSection" class="hidden">
+    <!-- FORGOT -->
+    <section id="forgotSection" class="hidden">
         <h3>Reset Password</h3>
-        <input type="text" id="resetUser" placeholder="Username">
-        <input type="password" id="newPass" placeholder="New Password">
-        <button class="primary" onclick="resetPassword()">Update</button>
-        <button class="danger" onclick="backToLogin()" style="margin-top:10px;">Back</button>
-    </div>
+        <form id="resetForm" class="stack" autocomplete="off">
+            <div><label for="resetUser">Username</label><input type="text" id="resetUser" required></div>
+            <div><label for="resetPin">Recovery PIN</label><input type="password" id="resetPin" inputmode="numeric" required></div>
+            <div><label for="newPass">New password (min 6 characters)</label><input type="password" id="newPass" minlength="6" required></div>
+            <button type="submit" class="btn primary">Update password</button>
+        </form>
+        <button class="btn ghost" id="backLoginBtn" style="margin-top:12px;">← Back</button>
+    </section>
 
-    <div id="buyerSection" class="hidden">
-        <h3>User: <span id="displayUser"></span></h3>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Query product info...">
-            <button class="primary" onclick="generateSearch()">Search</button>
+    <!-- BUYER -->
+    <section id="buyerSection" class="hidden">
+        <div class="topbar">
+            <h3>Hi, <span id="displayUser"></span> 👋</h3>
+            <span class="badge">Buyer</span>
         </div>
+
+        <form class="search-row" id="searchForm">
+            <input type="text" id="searchInput" placeholder="What are you looking for?" aria-label="Product search" autocomplete="off">
+            <button type="submit" class="btn primary" id="searchBtn">Search</button>
+        </form>
+        <div class="chips" id="recentChips" aria-label="Recent searches"></div>
+
         <div id="shopGrid" class="grid"></div>
-        <div id="priceTable" class="hidden" style="margin-top:20px;">
-            <h3 style="text-align:center;">Real-time Comparison</h3>
+
+        <div id="notebook" class="panel hidden">
+            <h3>Price Notebook</h3>
+            <p class="sub">Type the prices you find on each site. The cheapest is highlighted automatically and saved for next time.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Shop</th><th>Price (₱)</th><th style="text-align:center;">Link</th></tr></thead>
+                    <tbody id="priceBody"></tbody>
+                </table>
+            </div>
+            <div class="summary" id="summary"></div>
+        </div>
+
+        <button class="btn danger" id="logoutBuyer" style="margin-top:22px;">Disconnect</button>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="adminSection" class="hidden">
+        <div class="topbar">
+            <h3>Admin Control Panel</h3>
+            <span class="badge">Admin</span>
+        </div>
+        <div class="grid" style="margin-top:0;">
+            <div class="shop"><div style="font-size:28px;font-weight:700;" id="statUsers">0</div><div>Total users</div></div>
+            <div class="shop"><div style="font-size:28px;font-weight:700;" id="statBuyers">0</div><div>Buyers</div></div>
+        </div>
+        <div class="panel table-wrap">
             <table>
-                <thead>
-                    <tr><th>Shop</th><th style="text-align:right;">Price (₱)</th><th style="text-align:center;">Link</th></tr>
-                </thead>
-                <tbody id="priceBody"></tbody>
+                <thead><tr><th>Username</th><th>Role</th><th style="text-align:center;">Action</th></tr></thead>
+                <tbody id="userBody"></tbody>
             </table>
         </div>
-        <button class="danger" onclick="logout()" style="margin-top:20px;">Disconnect</button>
-    </div>
-
-    <div id="adminSection" class="hidden">
-        <h3>Admin Control Panel</h3>
-        <p style="text-align:center; padding: 20px;">System Administrator Access Only.</p>
-        <button class="danger" onclick="logout()" style="margin-top:20px;">Disconnect</button>
-    </div>
+        <button class="btn danger" id="logoutAdmin" style="margin-top:22px;">Disconnect</button>
+    </section>
 
     <footer>© TAGLINE: BSE-1C ONAAA SHEESSSHH</footer>
-</div>
+</main>
+
+<div id="toasts" aria-live="polite"></div>
 
 <script>
-let selectedRole="buyer";
-let users=JSON.parse(localStorage.getItem("users"))||[{username:"admin",password:"admin123",role:"admin"}];
+"use strict";
 
-// DARK MODE TOGGLE
-function toggleDark(){
-    const body = document.body;
-    const btn = document.getElementById("themeBtn");
-    body.classList.toggle("dark");
-    btn.innerText = body.classList.contains("dark") ? "" : "";
-}
+/* ================= CONFIG ================= */
+// Put your school logo URL here (e.g. "images/logo.png"). Leave empty to use the built-in emblem.
+const LOGO_URL = "";
 
-// ROLE SELECTION
-function selectRole(role){
-    selectedRole=role;
-    document.getElementById("buyerBtn").classList.toggle("active", role === 'buyer');
-    document.getElementById("adminBtn").classList.toggle("active", role === 'admin');
-    goToLogin();
-}
-
-function goToLogin(){
-    document.getElementById("roleSection").classList.add("hidden");
-    document.getElementById("loginSection").classList.remove("hidden");
-    document.getElementById("loginTitle").innerText=selectedRole.toUpperCase() + " ACCESS";
-    document.getElementById("registerBox").style.display=selectedRole==="admin"?"none":"block";
-}
-
-function backToRole(){
-    document.getElementById("loginSection").classList.add("hidden");
-    document.getElementById("roleSection").classList.remove("hidden");
-}
-
-function togglePass(id){
-    let x=document.getElementById(id);
-    x.type=x.type==="password"?"text":"password";
-}
-
-// FORGOT PASSWORD LOGIC
-function goToForgot(){
-    document.getElementById("loginSection").classList.add("hidden");
-    document.getElementById("forgotSection").classList.remove("hidden");
-}
-function backToLogin(){
-    document.getElementById("forgotSection").classList.add("hidden");
-    document.getElementById("loginSection").classList.remove("hidden");
-}
-function resetPassword(){
-    let u=document.getElementById("resetUser").value.trim();
-    let p=document.getElementById("newPass").value.trim();
-    let user=users.find(x=>x.username===u);
-    if(!user) return alert("Identity not found in database.");
-    user.password=p;
-    localStorage.setItem("users",JSON.stringify(users));
-    alert("Access code updated.");
-    backToLogin();
-}
-
-// REGISTRATION
-function registerUser(){
-    let u=document.getElementById("regUser").value.trim();
-    let p=document.getElementById("regPass").value.trim();
-    if(!u || p.length < 4) return alert("Protocol Error: Check inputs.");
-    if(users.find(x=>x.username===u)) return alert("Identity already exists.");
-    users.push({username:u,password:p,role:"buyer"});
-    localStorage.setItem("users",JSON.stringify(users));
-    alert("New user initialized!");
-}
-
-// LOGIN
-function login(){
-    let u=document.getElementById("authUser").value.trim();
-    let p=document.getElementById("authPass").value.trim();
-    let user=users.find(x=>x.username===u&&x.password===p&&x.role===selectedRole);
-    if(!user) return alert("ACCESS DENIED!");
-    sessionStorage.setItem("activeUser",JSON.stringify(user));
-    location.reload();
-}
-
-function logout(){sessionStorage.removeItem("activeUser");location.reload();}
-
-// SHOPS DATA
-const shops=[
-    {name:"Shopee",url:"https://shopee.ph/search?keyword=",img:"https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg"},
-    {name:"Lazada",url:"https://www.lazada.com.ph/catalog/?q=",img:"https://tse2.mm.bing.net/th/id/OIP.N9nx3NN4r6O-Akbk-E9KSQAAAA?pid=Api&h=220&P=0"},
-    {name:"TikTok",url:"https://www.tiktok.com/search?q=",img:"https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"},
-    {name:"Zalora",url:"https://www.zalora.com.ph/catalog/?q=",img:"https://tse3.mm.bing.net/th/id/OIP.gW8cv-ofhWfoTl00ZkXgaAHaEK?pid=Api&h=220&P=0"}
+const SHOPS = [
+    {name:"Shopee", url:"https://shopee.ph/search?keyword=",         color:"#ee4d2d", letter:"S"},
+    {name:"Lazada", url:"https://www.lazada.com.ph/catalog/?q=",     color:"#0f146d", letter:"L"},
+    {name:"TikTok", url:"https://www.tiktok.com/search?q=",          color:"#111111", letter:"T"},
+    {name:"Zalora", url:"https://www.zalora.com.ph/catalog/?q=",     color:"#1a1a1a", letter:"Z"}
 ];
 
-// UPDATED SEARCH FUNCTION WITH ANIMATION
-function generateSearch(){
-    let term = document.getElementById("searchInput").value.trim(); 
-    if(!term) return;
-    
-    const grid = document.getElementById("shopGrid");
-    const table = document.getElementById("priceTable");
-    
-    // Start AI Scanning Animation
-    table.classList.add("hidden");
-    grid.innerHTML = `
-        <div class="searching-overlay" style="grid-column: 1 / -1;">
-            <div id="statusText">INITIALIZING AI PROTOCOL...</div>
-            <div class="loader-bar"><div class="loader-progress" id="pBar"></div></div>
-            <span class="scan-line" id="scanDetails">Scraping marketplace databases...</span>
-        </div>
-    `;
+const KEYS = {users:"kuya_users_v2", session:"kuya_session", theme:"kuya_theme"};
 
-    let progress = 0;
-    let statusMessages = [
-        "Analyzing price patterns...",
-        "Bypassing merchant firewalls...",
-        "Validating stock integrity...",
-        "Optimizing best deals..."
-    ];
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-    // Artificial Progress Logic
-    let interval = setInterval(() => {
-        progress += 4;
-        document.getElementById("pBar").style.width = progress + "%";
-        
-        if(progress % 24 === 0) {
-            let msgIdx = Math.floor(progress / 25);
-            if(statusMessages[msgIdx]) {
-                document.getElementById("scanDetails").innerText = statusMessages[msgIdx];
+const store = {
+    get(k, fallback){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; }catch{ return fallback; } },
+    set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} },
+    del(k){ try{ localStorage.removeItem(k); }catch{} }
+};
+
+function toast(msg, type=""){
+    const t = document.createElement("div");
+    t.className = "toast " + type;
+    t.textContent = msg;
+    $("toasts").appendChild(t);
+    setTimeout(() => t.remove(), 3200);
+}
+
+async function sha(text){
+    if(window.crypto && crypto.subtle){
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+        return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");
+    }
+    return "plain:" + text; // fallback if the browser blocks crypto (insecure context)
+}
+const hashPass = (user, pass) => sha("kuya|" + user.toLowerCase() + "|" + pass);
+
+/* ================= USERS ================= */
+let users = [];
+
+async function loadUsers(){
+    users = store.get(KEYS.users, null);
+
+    if(!users){
+        users = [];
+        // migrate old plaintext accounts from the previous version
+        const old = store.get("users", null);
+        if(Array.isArray(old)){
+            for(const u of old){
+                users.push({username:u.username, hash: await hashPass(u.username, u.password), pin:null, role:u.role || "buyer"});
             }
+            store.del("users");
         }
-
-        if(progress >= 100) {
-            clearInterval(interval);
-            renderResults(term);
+        if(!users.some(u => u.role === "admin")){
+            users.push({username:"admin", hash: await hashPass("admin","admin123"), pin:null, role:"admin"});
         }
-    }, 40);
-}
-
-function renderResults(term) {
-    const grid = document.getElementById("shopGrid");
-    grid.innerHTML = shops.map((s, index) => `
-        <div class="platform-card" style="animation-delay: ${index * 0.1}s">
-            <img src="${s.img}" style="width:70px;height:70px;object-fit:contain;margin-bottom:10px;${document.body.classList.contains('dark') ? 'filter: brightness(0) invert(1) sepia(1) hue-rotate(80deg) saturate(5);' : ''}">
-            <h4>${s.name}</h4>
-            <a class="button-link" href="${s.url+encodeURIComponent(term)}" target="_blank">Access</a>
-        </div>`).join("");
-
-    let minPrice = Infinity; 
-    let priceData = [];
-    shops.forEach(s => {
-        let price = (Math.random() * 1500 + 100).toFixed(2);
-        priceData.push({shop: s.name, price: price, link: s.url + encodeURIComponent(term)});
-        if(parseFloat(price) < minPrice) minPrice = parseFloat(price);
-    });
-
-    let body = document.getElementById("priceBody");
-    body.innerHTML = "";
-    priceData.forEach(p => {
-        let highlight = parseFloat(p.price) === minPrice ? "highlight" : "";
-        body.innerHTML += `<tr class="${highlight}">
-            <td>${p.shop}</td>
-            <td style="text-align:right;">₱${p.price}</td>
-            <td style="text-align:center;"><a href="${p.link}" target="_blank" style="color:inherit;font-weight:bold;">Link</a></td>
-        </tr>`;
-    });
-    
-    document.getElementById("priceTable").classList.remove("hidden");
-}
-
-// SESSION ON LOAD
-window.onload = () => {
-    let activeUser=JSON.parse(sessionStorage.getItem("activeUser"));
-    if(activeUser){
-        document.getElementById("roleSection").classList.add("hidden");
-        if(activeUser.role==="admin") document.getElementById("adminSection").classList.remove("hidden");
-        else {
-            document.getElementById("buyerSection").classList.remove("hidden");
-            document.getElementById("displayUser").innerText=activeUser.username;
-        }
+        saveUsers();
     }
 }
+const saveUsers = () => store.set(KEYS.users, users);
+const findUser = name => users.find(u => u.username.toLowerCase() === name.toLowerCase());
+
+/* ================= VIEWS ================= */
+const VIEWS = ["roleSection","loginSection","forgotSection","buyerSection","adminSection"];
+function show(id){
+    VIEWS.forEach(v => $(v).classList.toggle("hidden", v !== id));
+}
+
+/* ================= THEME ================= */
+function applyTheme(dark){
+    document.body.classList.toggle("dark", dark);
+    $("themeBtn").textContent = dark ? "💻" : "🌙";
+    store.set(KEYS.theme, dark ? "dark" : "light");
+}
+$("themeBtn").addEventListener("click", () => applyTheme(!document.body.classList.contains("dark")));
+
+/* ================= LOGO ================= */
+function renderLogo(){
+    const box = $("logo");
+    if(LOGO_URL){
+        box.innerHTML = `<img src="${esc(LOGO_URL)}" alt="School logo">`;
+        return;
+    }
+    box.innerHTML = `
+    <svg viewBox="0 0 100 100" role="img" aria-label="Emblem">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2a5298"/><stop offset="1" stop-color="#1e3c72"/></linearGradient></defs>
+        <circle cx="50" cy="50" r="46" fill="url(#g)" stroke="#ffb703" stroke-width="4"/>
+        <path d="M50 24 L82 40 L50 56 L18 40 Z" fill="#fff"/>
+        <path d="M30 49 V64 C30 70 70 70 70 64 V49 L50 59 Z" fill="#ffb703"/>
+        <rect x="80" y="40" width="3" height="20" rx="1.5" fill="#ffb703"/>
+    </svg>`;
+}
+
+/* ================= ROLE / NAVIGATION ================= */
+let selectedRole = "buyer";
+
+function selectRole(role){
+    selectedRole = role;
+    $("buyerBtn").classList.toggle("active", role === "buyer");
+    $("adminBtn").classList.toggle("active", role === "admin");
+}
+document.querySelectorAll(".role-btn").forEach(b => b.addEventListener("click", () => selectRole(b.dataset.role)));
+
+$("continueBtn").addEventListener("click", () => {
+    $("loginTitle").textContent = selectedRole.toUpperCase() + " ACCESS";
+    $("registerBox").classList.toggle("hidden", selectedRole === "admin");
+    show("loginSection");
+    $("authUser").focus();
+});
+$("backRoleBtn").addEventListener("click", () => show("roleSection"));
+$("forgotLink").addEventListener("click", () => show("forgotSection"));
+$("backLoginBtn").addEventListener("click", () => show("loginSection"));
+
+document.querySelectorAll("[data-eye]").forEach(btn => btn.addEventListener("click", () => {
+    const input = $(btn.dataset.eye);
+    input.type = input.type === "password" ? "text" : "password";
+}));
+
+/* ================= AUTH ================= */
+let failed = 0, lockUntil = 0;
+
+$("loginForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const now = Date.now();
+    if(now < lockUntil){
+        return toast(`Too many attempts. Try again in ${Math.ceil((lockUntil-now)/1000)}s.`, "err");
+    }
+    const name = $("authUser").value.trim();
+    const pass = $("authPass").value;
+    const user = findUser(name);
+    const ok = user && user.role === selectedRole && user.hash === await hashPass(user.username, pass);
+
+    if(!ok){
+        failed++;
+        if(failed >= 5){ lockUntil = Date.now() + 30000; failed = 0; return toast("Locked for 30 seconds.", "err"); }
+        return toast("ACCESS DENIED: wrong username, password, or role.", "err");
+    }
+    failed = 0;
+    sessionStorage.setItem(KEYS.session, user.username);
+    $("authPass").value = "";
+    enterApp(user);
+    toast("Welcome back, " + user.username + "!", "ok");
+});
+
+$("regForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const name = $("regUser").value.trim();
+    const pass = $("regPass").value;
+    const pin  = $("regPin").value.trim();
+
+    if(!/^[A-Za-z0-9_.-]{3,20}$/.test(name)) return toast("Username: 3–20 letters, numbers, . _ -", "err");
+    if(pass.length < 6)                      return toast("Password must be at least 6 characters.", "err");
+    if(!/^\d{4,8}$/.test(pin))               return toast("Recovery PIN must be 4–8 digits.", "err");
+    if(findUser(name))                       return toast("That username is already taken.", "err");
+
+    users.push({username:name, hash: await hashPass(name, pass), pin: await sha("pin|"+name.toLowerCase()+"|"+pin), role:"buyer"});
+    saveUsers();
+    e.target.reset();
+    toast("Account created! You can log in now.", "ok");
+});
+
+$("resetForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const name = $("resetUser").value.trim();
+    const pin  = $("resetPin").value.trim();
+    const pass = $("newPass").value;
+    const user = findUser(name);
+
+    if(pass.length < 6) return toast("Password must be at least 6 characters.", "err");
+    if(!user || user.role === "admin" || !user.pin || user.pin !== await sha("pin|"+user.username.toLowerCase()+"|"+pin)){
+        return toast("Could not verify that account and PIN.", "err");
+    }
+    user.hash = await hashPass(user.username, pass);
+    saveUsers();
+    e.target.reset();
+    toast("Password updated.", "ok");
+    show("loginSection");
+});
+
+function logout(){
+    sessionStorage.removeItem(KEYS.session);
+    $("shopGrid").innerHTML = "";
+    $("notebook").classList.add("hidden");
+    $("searchInput").value = "";
+    show("roleSection");
+}
+$("logoutBuyer").addEventListener("click", logout);
+$("logoutAdmin").addEventListener("click", logout);
+
+function enterApp(user){
+    if(user.role === "admin"){
+        renderAdmin();
+        show("adminSection");
+    }else{
+        $("displayUser").textContent = user.username;
+        renderChips();
+        show("buyerSection");
+        $("searchInput").focus();
+    }
+}
+
+/* ================= BUYER: SEARCH ================= */
+const currentUser = () => findUser(sessionStorage.getItem(KEYS.session) || "");
+const histKey  = () => "kuya_recent_" + currentUser().username.toLowerCase();
+const notesKey = () => "kuya_prices_" + currentUser().username.toLowerCase();
+
+let currentTerm = "";
+
+function pushRecent(term){
+    let list = store.get(histKey(), []).filter(t => t.toLowerCase() !== term.toLowerCase());
+    list.unshift(term);
+    store.set(histKey(), list.slice(0, 6));
+    renderChips();
+}
+
+function renderChips(){
+    const box = $("recentChips");
+    const list = store.get(histKey(), []);
+    box.innerHTML = list.map(t => `<button type="button" class="chip" data-term="${esc(t)}">🕘 ${esc(t)}</button>`).join("");
+    box.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+        $("searchInput").value = c.dataset.term;
+        runSearch(c.dataset.term);
+    }));
+}
+
+$("searchForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const term = $("searchInput").value.trim();
+    if(term) runSearch(term);
+});
+
+function runSearch(term){
+    currentTerm = term;
+    const grid = $("shopGrid");
+    $("notebook").classList.add("hidden");
+    $("searchBtn").disabled = true;
+
+    grid.innerHTML = `
+        <div class="loader">
+            <div id="loadMsg">Preparing your search…</div>
+            <div class="bar"><i id="loadBar"></i></div>
+            <small id="loadSub">Building links for ${SHOPS.length} marketplaces</small>
+        </div>`;
+
+    const msgs = ["Building search links…", "Checking marketplaces…", "Getting your notebook ready…"];
+    let p = 0;
+    const timer = setInterval(() => {
+        p += 5;
+        $("loadBar").style.width = p + "%";
+        $("loadSub").textContent = msgs[Math.min(msgs.length-1, Math.floor(p/34))];
+        if(p >= 100){
+            clearInterval(timer);
+            renderResults(term);
+            $("searchBtn").disabled = false;
+        }
+    }, 30);
+}
+
+function renderResults(term){
+    pushRecent(term);
+
+    $("shopGrid").innerHTML = SHOPS.map((s,i) => `
+        <div class="shop" style="animation-delay:${i*0.08}s">
+            <div class="mark" style="background:${s.color}">${s.letter}</div>
+            <h4>${s.name}</h4>
+            <a class="button-link" href="${s.url + encodeURIComponent(term)}" target="_blank" rel="noopener noreferrer">Access ↗</a>
+        </div>`).join("");
+
+    renderNotebook(term);
+}
+
+/* ================= PRICE NOTEBOOK ================= */
+function renderNotebook(term){
+    const saved = (store.get(notesKey(), {})[term.toLowerCase()]) || {};
+    $("priceBody").innerHTML = SHOPS.map(s => `
+        <tr data-shop="${s.name}">
+            <td>${s.name}</td>
+            <td><input type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"
+                       value="${saved[s.name] ?? ""}" aria-label="${s.name} price"></td>
+            <td style="text-align:center;"><a href="${s.url + encodeURIComponent(term)}" target="_blank" rel="noopener noreferrer" style="color:inherit;font-weight:600;">Open</a></td>
+        </tr>`).join("");
+
+    $("priceBody").querySelectorAll("input").forEach(inp => inp.addEventListener("input", () => updateBest(term)));
+    $("notebook").classList.remove("hidden");
+    updateBest(term, false);
+}
+
+function updateBest(term, persist = true){
+    const rows = [...$("priceBody").querySelectorAll("tr")];
+    const data = {};
+    rows.forEach(r => {
+        const v = parseFloat(r.querySelector("input").value);
+        if(!isNaN(v) && v >= 0) data[r.dataset.shop] = v;
+        r.classList.remove("best");
+    });
+
+    if(persist){
+        const all = store.get(notesKey(), {});
+        all[term.toLowerCase()] = data;
+        store.set(notesKey(), all);
+    }
+
+    const entries = Object.entries(data);
+    if(entries.length < 1){ $("summary").textContent = ""; return; }
+
+    const min = Math.min(...entries.map(e => e[1]));
+    rows.forEach(r => { if(data[r.dataset.shop] === min && entries.length > 1) r.classList.add("best"); });
+
+    const winners = entries.filter(e => e[1] === min).map(e => e[0]).join(" & ");
+    $("summary").textContent = entries.length > 1
+        ? `💰 Cheapest: ${winners} at ₱${min.toLocaleString("en-PH",{minimumFractionDigits:2})}`
+        : "Add another shop's price to compare.";
+}
+
+/* ================= ADMIN ================= */
+function renderAdmin(){
+    $("statUsers").textContent  = users.length;
+    $("statBuyers").textContent = users.filter(u => u.role === "buyer").length;
+
+    $("userBody").innerHTML = users.map(u => `
+        <tr>
+            <td>${esc(u.username)}</td>
+            <td>${esc(u.role)}</td>
+            <td style="text-align:center;">
+                ${u.role === "admin" ? "—" : `<button class="chip" data-del="${esc(u.username)}">Delete</button>`}
+            </td>
+        </tr>`).join("");
+
+    $("userBody").querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", () => {
+        const name = b.dataset.del;
+        if(!confirm(`Delete user "${name}"? This cannot be undone.`)) return;
+        users = users.filter(u => u.username !== name);
+        saveUsers();
+        store.del("kuya_recent_" + name.toLowerCase());
+        store.del("kuya_prices_" + name.toLowerCase());
+        renderAdmin();
+        toast("User deleted.", "ok");
+    }));
+}
+
+/* ================= INIT ================= */
+(async function init(){
+    applyTheme(store.get(KEYS.theme, "light") === "dark");
+    renderLogo();
+    await loadUsers();
+
+    const active = sessionStorage.getItem(KEYS.session);
+    const user = active && findUser(active);
+    if(user) enterApp(user); else show("roleSection");
+})();
 </script>
 </body>
 </html>
-
